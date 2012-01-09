@@ -8,8 +8,6 @@ from django.utils.functional import lazy
 
 from .manage import ROOT, path
 
-ROOT_PACKAGE = os.path.basename(ROOT)
-
 # Is this a dev instance?
 DEV = False
 
@@ -113,9 +111,9 @@ LANGUAGES = lazy(lazy_langs, dict)()
 # handles the extraction. The Tower library expects this.
 DOMAIN_METHODS = {
     'messages': [
-        ('apps/**.py',
+        ('**/**.py',
             'tower.management.commands.extract.extract_tower_python'),
-        ('apps/**/templates/**.html',
+        ('**/**/templates/**.html',
             'tower.management.commands.extract.extract_tower_template'),
         ('templates/**.html',
             'tower.management.commands.extract.extract_tower_template'),
@@ -203,16 +201,11 @@ MIDDLEWARE_CLASSES = (
     'mobility.middleware.XMobileMiddleware',
 )
 
-ROOT_URLCONF = '%s.urls' % ROOT_PACKAGE
-
 INSTALLED_APPS = (
     # Local apps
     'funfactory',  # Content common to most playdoh-based apps.
     'jingo_minify',
     'tower',  # for ./manage.py extract (L10n)
-
-    # We need this so the jsi18n view will pick up our locale directory.
-    ROOT_PACKAGE,
 
     # Django contrib apps
     'django.contrib.auth',
